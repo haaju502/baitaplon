@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 'use strict';
 require('dotenv').config();
 const express     = require('express');
@@ -36,7 +37,11 @@ app.use(function(req, res, next) {
     .send('Not Found');
 });
 
-//Start our server and tests!
+mongoose.connect(process.env.DB)
+  .then(() => console.log('Connected to Database successfully'))
+  .catch((err) => console.error('Database connection error:', err));
+
+
 const listener = app.listen(process.env.PORT || 3000, function () {
   console.log('Your app is listening on port ' + listener.address().port);
   if(process.env.NODE_ENV==='test') {
